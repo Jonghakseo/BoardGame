@@ -18,8 +18,25 @@ public class Apart extends BuildingCard {
         //화재확률 설정
         setLoanRate(0.0);
         //대출비율
-
     }
+
+    public Apart(Player owner){
+        super();
+        // 생성과 동시에 필요한 정보. 주인?
+        setName("아파트");
+        // 이름 설정
+        setOwner(owner);
+        // 주인 설정
+        setTenantCardAbleList("거주자");
+        //가능한 거주자들 설정
+        setMoneyChange(-5000);
+        //유지비 설정
+        setFireRate(0.02);
+        //화재확률 설정
+        setLoanRate(0.0);
+        //대출비율
+    }
+    //땅 분배시 사용할 전용 생성자
     double suddenIncreaseRate=0.1;
 
     //폭등확률
@@ -41,6 +58,18 @@ public class Apart extends BuildingCard {
             getLand().getTc().setMoneyChange(getLand().getTc().getMoneyChange() * 2);
             // 월세 수익*2로 설정
         }
+    }
+
+    @Override
+    public String suddenIncrease(double randomRate, boolean isGUI) {
+        String message = "";
+        if (getSuddenIncreaseRate()>randomRate) {
+            // 폭등여부
+            message = (getLand().getName()+"은 아파트 폭등으로 월세가 2배가 됩니다. \r\n이제 " + getLand().getTc().getMoneyChange() * 2 + "의 수익을 얻습니다.\n");
+            getLand().getTc().setMoneyChange(getLand().getTc().getMoneyChange() * 2);
+            // 월세 수익*2로 설정
+        }
+        return message;
     }
 
 //    @Override

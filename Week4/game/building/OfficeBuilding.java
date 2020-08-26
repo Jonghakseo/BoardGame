@@ -39,6 +39,29 @@ public class OfficeBuilding extends BuildingCard{
             // 세입자 카드의 수입 5배로 다시 원상복구
         }
     }
+    @Override
+    public String checkTanant(boolean isGUI) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (!(getTenantCardAbleList().contains(getLand().getTc().getName())) && !(getLand().getTc().getIsBuildingPenalty())) {
+            //리스트에 없는 세입자 & 패널티 받은 적 없음.
+            getLand().getTc().setIsBuildingPenalty(true);//패널티 줌
+            getLand().getTc().setMoneyChange((int) (getLand().getTc().getMoneyChange() * 0.2));
+            stringBuilder.append(getLand().getName()+"은 적절하지 못한 세입자의 입주로 인해 월세가 80% 감소합니다.\r\n");
+            // 세입자 카드의 수입 계속 50%로 감소
+        } else if((getTenantCardAbleList().contains(getLand().getTc().getName())) && (getLand().getTc().getIsBuildingPenalty())){
+            //리스트에 있고 패널티 받은 적 있음
+            if (getLand().getTc().getMoneyChange()==100000){//대기업이 들어온다면
+                getLand().getTc().setMoneyChange((getLand().getTc().getMoneyChange() * 2));
+            }else {
+                getLand().getTc().setMoneyChange((getLand().getTc().getMoneyChange() * 5));
+            }
+            stringBuilder.append(getLand().getName()+"은 적절한 세입자의 입주로 인해 월세가 복구됩니다.\n");
+            // 세입자 카드의 수입 2배로 다시 원상복구
+        }
+        return stringBuilder.toString();
+    }
+    //체크시점 : 입주자가 바뀔 때.
+
 
 
 

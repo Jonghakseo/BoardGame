@@ -23,7 +23,7 @@ public class SelfEmployment extends TenantCard {
 
     }
 
-    double runRate;
+    private double runRate;
 
     //야반도주 확률
     public double getRunRate() {
@@ -40,6 +40,17 @@ public class SelfEmployment extends TenantCard {
             System.out.println(getLand().getName() + "에 있는 " + getName() + "이(가) 야반도주합니다.");
             setUsable(false);
         }
+    }
+    // 야반도주 여부에 따른 야반도주
+
+    @Override
+    public String nightRun(double randomRate, boolean isGUI) {
+        String message = "";
+        if (getRunRate() > randomRate) {
+            message = (getLand().getName() + "에 있는 " + getName() + "이(가) 야반도주합니다.\n");
+            setUsable(false);
+        }
+        return message;
     }
     // 야반도주 여부에 따른 야반도주
 

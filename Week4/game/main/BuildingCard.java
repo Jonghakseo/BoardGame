@@ -1,6 +1,5 @@
 package Week4.game.main;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BuildingCard extends Card {
@@ -42,7 +41,13 @@ public class BuildingCard extends Card {
     }
 
     public void reconstruction(double randomRate) {}
+    public String reconstruction(double randomRate,boolean isGUI) {
+        return "";
+    }
     public void suddenIncrease(double randomRate) {}
+    public String suddenIncrease(double randomRate,boolean isGUI) {
+        return "";
+    }
 
 
     public void burnBuilding(double randomRate) {
@@ -51,6 +56,16 @@ public class BuildingCard extends Card {
             System.out.println(getLand().getName() + "의 " + getName() + "건물이 불타 없어졌습니다.");
 //            setLand(null);
         }
+    }
+    //건물이 불타 없어짐.
+
+    public String burnBuilding(double randomRate, Player nowPlayer) {
+        if (getFireRate() > randomRate) {
+            isUsable = false;
+            nowPlayer.setMiniGameFire(true);
+            return (getLand().getName() + "의 " + getName() + "건물이 불타 없어졌습니다.\n");
+        }
+        return "";
     }
     //건물이 불타 없어짐.
 
@@ -75,7 +90,7 @@ public class BuildingCard extends Card {
     public void checkVacancy() {
         if (getLand().getTc()==null) {
             setMoneyChange(getMoneyChange()+(int)(getMoneyChange() * (1 * 0.1)));
-            System.out.println("공실기간이 증가하여 "+getLand().getName()+"의 "+getName()+" 유지비가 10% 증가합니다.");
+//            System.out.println("공실기간이 증가하여 "+getLand().getName()+"의 "+getName()+" 유지비가 10% 증가합니다.");
         } else {
 //            System.out.println("공실아님");
         }
@@ -96,14 +111,25 @@ public class BuildingCard extends Card {
             System.out.println(getLand().getName()+"은 적절한 세입자의 입주로 인해 월세가 복구됩니다.");
             // 세입자 카드의 수입 2배로 다시 원상복구
         }
-//        else if((getTenantCardAbleList().contains(getLand().getTc().getName()))){
-//            System.out.println("리스트에 있는 카드입니다.!!!!!!!!!!!!!!!!!!!!");
-//            //이건 됨.
-//        } else {
-//            System.out.println("에러!!!!!!!!!!!!!!");
-//            System.out.println((getTenantCardAbleList().contains(getLand().getTc().getName())));
-//            System.out.println((getLand().getTc().getIsBuildingPenalty()));
-//        }
+    }
+    //체크시점 : 입주자가 바뀔 때.
+    public String checkTanant(boolean isGUI) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("");
+        if (!(getTenantCardAbleList().contains(getLand().getTc().getName())) && !(getLand().getTc().getIsBuildingPenalty())) {
+            //리스트에 없는 세입자 & 패널티 받은 적 없음.
+            getLand().getTc().setIsBuildingPenalty(true);//패널티 줌
+            getLand().getTc().setMoneyChange((int) (getLand().getTc().getMoneyChange() * 0.5));
+            stringBuilder.append(getLand().getName()+"은 적절하지 못한 세입자의 입주로 인해 월세가 50% 감소합니다.\r\n");
+            // 세입자 카드의 수입 계속 50%로 감소
+        } else if((getTenantCardAbleList().contains(getLand().getTc().getName())) && (getLand().getTc().getIsBuildingPenalty())){
+            //리스트에 있고 패널티 받은 적 있음
+            getLand().getTc().setIsBuildingPenalty(false); //패널티 없앰.
+            getLand().getTc().setMoneyChange((getLand().getTc().getMoneyChange() * 2));
+            stringBuilder.append(getLand().getName()+"은 적절한 세입자의 입주로 인해 월세가 복구됩니다.\n");
+            // 세입자 카드의 수입 2배로 다시 원상복구
+        }
+        return stringBuilder.toString();
     }
     //체크시점 : 입주자가 바뀔 때.
 

@@ -42,13 +42,26 @@ public class MajorCorp extends TenantCard{
     @Override
     public void trading(double randomRate) {
         if (getContractTerm()==1) {
-            System.out.println(getLand().getName()+"의" + getName() + "이(가) 건물과 땅을 매입하고 싶어합니다.");
-            System.out.println(getOwner().getName()+"이 건물 매매로 " + getMoneyChange() * 30 + "의 수익을 얻지만 땅이 사라집니다.");
+            System.out.println(getLand().getName()+"의 " + getName() + " 이(가) 건물을 매입하고 싶어합니다.");
+            System.out.println(getOwner().getName()+"이 건물 매매로 " + getMoneyChange() * 30 + "의 수익을 얻지만 건물이 사라집니다.");
             getOwner().setCurrentMoney(getOwner().getCurrentMoney()+getMoneyChange()*30); // 월세 30배 수익 입금완료.
             getLand().getTc().setUsable(false);
             getLand().getBc().setUsable(false);
-            getLand().setOwner(new Player("매매됨", false, 0,0)); // 새 주인 설정완료.
+            getLand().setOwner(new Player("빈 땅", false, 0,0)); // 새 주인 설정완료.
         }
+    }
+
+    @Override
+    public String trading(double randomRate, boolean isGUI) {
+        String message = "";
+        if (getContractTerm()==1) {
+            message = (getLand().getName()+"의 " + getName() + "이(가) 건물을 매입하고 싶어합니다.\r\n")+(getOwner().getName()+"이 건물 매매로 " + getMoneyChange() * 30 + "의 수익을 얻지만 건물이 사라집니다.\n");
+            getOwner().setCurrentMoney(getOwner().getCurrentMoney()+getMoneyChange()*30); // 월세 30배 수익 입금완료.
+            getLand().getTc().setUsable(false);
+            getLand().getBc().setUsable(false);
+//            getLand().setOwner(new Player("빈 땅", false, 0,0)); // 새 주인 설정완료.
+        }
+        return message;
     }
 
 }

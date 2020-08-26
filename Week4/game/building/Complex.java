@@ -43,6 +43,17 @@ public class Complex extends BuildingCard{
             // 땅 주인의 현재 금액을 현재금액+땅에서 나오는 수익*3로 설정
         }
     }
+    @Override
+    public String suddenIncrease(double randomRate, boolean isGUI) {
+        String message = "";
+        if (getSuddenIncreaseRate()>randomRate) {
+            // 폭등여부
+            message = (getLand().getName()+"은 주변 지역 폭등으로 월세가 3배가 됩니다. \n턴마다 " + getLand().getTc().getMoneyChange() * 3 + "의 수익을 얻습니다.\n");
+            getLand().getTc().setMoneyChange(getLand().getTc().getMoneyChange() * 3);
+            // 땅 주인의 현재 금액을 현재금액+땅에서 나오는 수익*3로 설정
+        }
+        return message;
+    }
 
 
 }

@@ -20,9 +20,9 @@ public class Complain extends SkillCard {
      *
      * */
     @Override
-    public void use() {
+    public void activate() {
         SkillCard tempSC = getTarget().getSc(); // 타겟의 스킬카드 가져옴
-        if (tempSC != null && tempSC.getName().equals("보험카드")) {
+        if ((tempSC != null) && (tempSC.getName().equals("보험카드"))) {
             System.out.println("================" + this.getName() + "발동 실패!==================");
             System.out.println("해당 땅에는 보험이 적용되어 있습니다.");
             System.out.println("==========================================================");
@@ -66,5 +66,56 @@ public class Complain extends SkillCard {
             }
             System.out.println("===============================================================");
         }//민원넣기.
+    }
+
+    @Override
+    public String activate(Player nowPlayer) {
+        StringBuilder stringBuilder =new StringBuilder();
+        SkillCard tempSC = getTarget().getSc(); // 타겟의 스킬카드 가져옴
+        if ((tempSC != null) && (tempSC.getName().equals("보험카드"))) {
+            stringBuilder.append("======" + this.getName() + "발동 실패!======\r\n");
+            stringBuilder.append("해당 땅에는 보험이 적용되어 있습니다.\n");
+            stringBuilder.append("===============\n");
+        } else {
+            getTarget().setSc(this);
+            BuildingCard tempBC = getTarget().getBc(); // 타겟의 건물 가져옴
+            TenantCard tempTC = getTarget().getTc();    // 타겟의 세입자 가져옴
+            stringBuilder.append("====== 민원카드 발동 ======\n");
+            stringBuilder.append(getTarget().getName() + "에 각종 민원이 빗발칩니다.\n");
+            switch (tempBC.getName()) {//건물이면
+                case "일반상가":
+                case "주상복합":
+                    stringBuilder.append("신분증을 위조한 미성년자의 출입으로 영업정지 처분을 받았습니다.\n");
+                    if (tempTC != null) {//세입자가 있으면 내보냄
+                        stringBuilder.append("기존 세입자인" + tempTC.getName() + "은(는) 영업 정지를 견디지 못하고 떠납니다.\n");
+                        tempTC.setUsable(false);
+                    }
+                    stringBuilder.append(getTarget().getName() + "의 " + tempBC.getName() + "은(는) 각종 민원으로 인해 벌금 300000 처분을 받습니다.\n");
+                    getTarget().getOwner().setCurrentMoney(getTarget().getOwner().getCurrentMoney() - 300000);//300000빼기
+                    break;
+                case "아파트":
+                    stringBuilder.append("각종 민원으로 아파트 옆 유해시설 설립이 추진됩니다.\n");
+                    if (tempTC != null) {//세입자가 있으면
+                        stringBuilder.append("기존 세입자인" + tempTC.getName() + "이(가) 격렬히 항의합니다.\n");
+                        stringBuilder.append("이제 " + tempTC.getName() + "에게 월세를 받던 만큼 보상비를 지급합니다.\n");
+                        tempTC.setMoneyChange(-(tempTC.getMoneyChange()));
+                    } else {
+                        stringBuilder.append("다행히 세입자가 없어 타격은 별로 없습니다.\n");
+                    }
+                    break;
+                case "대형빌딩":
+                    stringBuilder.append("건물 앞에서 도무지 이유를 알 수 없는 1인 시위가 시작됩니다.\n");
+                    if (tempTC != null) {//세입자가 있으면
+                        stringBuilder.append("기존 세입자인" + tempTC.getName() + "이(가) 타격을 받습니다.\n");
+                        stringBuilder.append("월세 수입이 60%로 감소합니다.\n");
+                        tempTC.setMoneyChange((int) (tempTC.getMoneyChange() * 0.6));
+                    } else {
+                        stringBuilder.append("다행히 세입자가 없어 타격은 별로 없습니다.\n");
+                    }
+                    break;
+            }
+            stringBuilder.append("===============\n");
+        }//민원넣기.
+        return stringBuilder.toString();
     }
 }

@@ -21,6 +21,17 @@ public class TenantCard extends Card {
     // 월세 밀린다 or 안 밀린다.
     int tempMoneyChange = 0;
     // 밀린 월세
+    double jackPotRate;
+    //대박확률
+
+    public double getJackPotRate() {
+        return jackPotRate;
+    }
+
+    public void setJackPotRate(double jackPotRate) {
+        this.jackPotRate = jackPotRate;
+    }
+
 
     public boolean getIsBuildingPenalty() {
         return isBuildingPenalty;
@@ -86,10 +97,28 @@ public class TenantCard extends Card {
         if (getDelayRate() > randomRate){
             setTempMoneyChange(getMoneyChange());
             setMoneyChange(0); //this.moneyChange = 0;
-            System.out.println(getLand().getName()+"지역의 이번 달 월세는 미납(연체)되었습니다.");
+            System.out.println(getLand().getName()+"의 이번 달 월세는 미납(연체)되었습니다.");
         } else {
-            setMoneyChange(getMoneyChange());
-            System.out.println(getLand().getName()+"의 이번 달 월세는 정상 입금되었습니다.");
+            if (getTempMoneyChange()!=0){
+                setMoneyChange(getTempMoneyChange());
+                System.out.println(getLand().getName()+"의 이번 달 월세는 정상 입금되었습니다.");
+                setTempMoneyChange(0);
+            }
+        }
+    }
+    //is delay가 참이면 연체됨. 연체된 금액은 밀린 월세에 들어감
+
+    public String delay(double randomRate, boolean isGUI){
+        if (getDelayRate() > randomRate){
+            setTempMoneyChange(getMoneyChange());
+            setMoneyChange(0); //this.moneyChange = 0;
+            return (getLand().getName()+"의 이번 달 월세는 미납(연체)되었습니다.\n");
+        } else {
+            if (getTempMoneyChange()!=0){
+                setMoneyChange(getTempMoneyChange());
+                setTempMoneyChange(0);
+            }
+            return "";
         }
     }
     //is delay가 참이면 연체됨. 연체된 금액은 밀린 월세에 들어감
@@ -102,8 +131,17 @@ public class TenantCard extends Card {
     }// 계약기간 감소. 계약기간이 0이 되면 사용불가 카드가 됨.
 
     public void nightRun(double randomRate){}
+    public String nightRun(double randomRate, boolean isGUI){
+        return "";
+    }
     public void jackPot(double randomRate){}
-    public void trading(double randomRate) {}
+    public String jackPot(double randomRate, boolean isGUI){
+        return "";
+    }
+    public void trading(double randomRate){}
+    public String trading(double randomRate, boolean isGUI){
+        return "";
+    }
 
 
 }

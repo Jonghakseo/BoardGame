@@ -47,4 +47,17 @@ public class Store extends BuildingCard{
         }
 
     }
+
+    @Override
+    public String reconstruction(double randomRate, boolean isGUI) {
+        if (getReconstructionRate() > randomRate) {
+            // 재개발 파트.
+            getOwner().setCurrentMoney(getOwner().getCurrentMoney() + getLand().getTc().getMoneyChange() * 5);
+            // 땅 주인의 현재 금액을 현재금액+땅에서 나오는 수익*5로 설정
+            return (getLand().getName()+"은 재건축으로 일시금 " + getLand().getTc().getMoneyChange() * 5 + "의 수익을 얻습니다.");
+        }else {
+            return "";
+        }
+    }
+
 }

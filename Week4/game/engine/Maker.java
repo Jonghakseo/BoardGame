@@ -28,72 +28,71 @@ public class Maker {
         Collections.shuffle(landList);
         //땅 목록 섞어버리기
         return landList;
-    }
+    } // 땅 생성
 
-    public ArrayList<Card> makingCards(){
-        // 카드들 많이 만들기 amount*(건물카드 4 + 세입자 카드 5 + 스킬카드 5 )개 3*14 = 42장
-        int cardAmount = 3;
+    public ArrayList<Card> makingCards(int bcCardAmount , int tcCardAmount, int scCardAmount){
+        // 카드들 많이 만들기 amount*(건물카드 4*3 + 세입자 카드 5*4 + 스킬카드 5*2 )개 3*14 = 42장
         ArrayList<Card> cards = new ArrayList<>();
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < tcCardAmount ; i++) {
             SelfEmployment selfEmployment = new SelfEmployment();
             cards.add(selfEmployment);
         } // 자영업자 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < tcCardAmount ; i++) {
             StartUp startUp = new StartUp();
             cards.add(startUp);
         } // 스타트업 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < tcCardAmount ; i++) {
             SmallCorp smallCorp = new SmallCorp();
             cards.add(smallCorp);
         }//중소기업 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < tcCardAmount ; i++) {
             MajorCorp majorCorp = new MajorCorp();
             cards.add(majorCorp);
         }//대기업 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < tcCardAmount ; i++) {
             Resident resident = new Resident();
             cards.add(resident);
         }//거주자 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < bcCardAmount ; i++) {
             Store store = new Store();
             cards.add(store);
         }//일반상가
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < bcCardAmount ; i++) {
             Apart apart = new Apart();
             cards.add(apart);
         }//아파트
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < bcCardAmount ; i++) {
             Complex complex = new Complex();
             cards.add(complex);
         }//주상복합
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < bcCardAmount ; i++) {
             OfficeBuilding officeBuilding = new OfficeBuilding();
             cards.add(officeBuilding);
         }//오피스빌딩
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < scCardAmount ; i++) {
             Arson arson = new Arson();
             cards.add(arson);
         } // 방화카드 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < scCardAmount ; i++) {
             Complain complain = new Complain();
             cards.add(complain);
         } // 민원카드 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < scCardAmount ; i++) {
             Insurance insurance = new Insurance();
             cards.add(insurance);
         } // 보험카드 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < scCardAmount ; i++) {
             Lawsuit lawsuit = new Lawsuit();
             cards.add(lawsuit);
         } // 소송카드 생성
-        for (int i = 0; i < cardAmount ; i++) {
+        for (int i = 0; i < scCardAmount ; i++) {
             Rumor rumor = new Rumor();
             cards.add(rumor);
         } // 루머카드 생성
         Collections.shuffle(cards);
         //섞어주고
         return cards;
-    }
+    } // 카드생성
 
     public TenantCard cardMaker(String tcName){
         //카드 만들기

@@ -27,17 +27,6 @@ public class SmallCorp extends TenantCard {
         setOwner(owner);
     }
 
-    double jackPotRate;
-    //대박확률
-
-
-    public double getJackPotRate() {
-        return jackPotRate;
-    }
-
-    public void setJackPotRate(double jackPotRate) {
-        this.jackPotRate = jackPotRate;
-    }
 
     @Override
     public void jackPot(double randomRate) {
@@ -47,6 +36,17 @@ public class SmallCorp extends TenantCard {
             //이 자리에 승급된 대기업 놓기
             setUsable(false);
         }
+    }
+    @Override
+    public String jackPot(double randomRate, boolean isGUI) {
+        String message = "";
+        if (getJackPotRate() > randomRate) {
+            message = (getLand().getName() + "에 있는 " + getName() + "이 대박이 났습니다. \r\n 대기업으로 변경됩니다.\n");
+            this.getLand().setTc(new MajorCorp(getOwner()));
+            //이 자리에 승급된 기업 놓기
+            setUsable(false);
+        }
+        return message;
     }
 
 }

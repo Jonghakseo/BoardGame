@@ -15,7 +15,7 @@ public class Card {
     Player owner;
     //카드주인
     boolean isTC = false;
-    boolean isBC = false;//세입자인지 빌딩인지 확인. ;
+    boolean isBC = false;     //세입자인지 빌딩인지 확인. ;
     boolean isSC = false;
 
     public boolean getIsTC() {
@@ -50,9 +50,6 @@ public class Card {
         this.cardIndex = cardIndex;
     }
 
-    public boolean isUsable() {
-        return isUsable;
-    }
     public String getName() {
         return name;
     }
@@ -110,6 +107,13 @@ public class Card {
 //        System.out.println(getOwner().getCurrentMoney());
         getOwner().setCurrentMoney(getOwner().getCurrentMoney()+getMoneyChange());
         System.out.println(this.getName()+" 카드의 효과로 "+getOwner().getName()+"의 현금이 "+getMoneyChange()+"만큼 변화합니다.");
+    }
+    // 현금 변화량만큼 보유자의 현금 변화시킴
+
+    public String cashChange(boolean isGUI){
+        getOwner().setCurrentMoney(getOwner().getCurrentMoney()+getMoneyChange());
+        String print = this.getName()+" 카드의 효과로 "+getOwner().getName()+"의 현금이 "+getMoneyChange()+"만큼 변화합니다.\n";
+        return print;
     }
     // 현금 변화량만큼 보유자의 현금 변화시킴
 

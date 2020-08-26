@@ -20,7 +20,7 @@ public class Resident extends TenantCard {
         //가능한 건물들 설정
 //        setWeaknessSkills("");
         //약한 스킬 설정
-        setTradeRate(0.2);
+        setTradeRate(0.05);
     }
 
     double tradeRate;
@@ -38,13 +38,26 @@ public class Resident extends TenantCard {
     @Override
     public void trading(double randomRate) {
         if (getTradeRate() > randomRate) {
-            System.out.println(getLand().getName()+"의" + getName() + "이(가) 건물과 땅을 매입하고 싶어합니다.");
-            System.out.println(getOwner().getName()+"이 건물 매매로 " + getMoneyChange() * 10 + "의 수익을 얻지만 땅이 사라집니다.");
+            System.out.println(getLand().getName()+"의 " + getName() + "이(가) 건물을 매입하고 싶어합니다.");
+            System.out.println(getOwner().getName()+"이 건물 매매로 " + getMoneyChange() * 10 + "의 수익을 얻지만 건물이 사라집니다.");
             getOwner().setCurrentMoney(getOwner().getCurrentMoney()+getMoneyChange()*10); // 월세 30배 수익 입금완료.
             getLand().getTc().setUsable(false);
             getLand().getBc().setUsable(false);
-            getLand().setOwner(new Player("매매됨", false, 0,0)); // 새 주인 설정완료.
+            getLand().setOwner(new Player("빈 땅", false, 0,0)); // 새 주인 설정완료.
         }
+    }
+
+    @Override
+    public String trading(double randomRate, boolean isGUI) {
+        String message = "";
+        if (getTradeRate() > randomRate) {
+            message = (getLand().getName()+"의 " + getName() + "이(가) 건물을 매입하고 싶어합니다.\r\n")+(getOwner().getName()+"이 건물 매매로 " + getMoneyChange() * 20 + "의 수익을 얻지만 건물이 사라집니다.\n");
+            getOwner().setCurrentMoney(getOwner().getCurrentMoney()+getMoneyChange()*20); // 월세 20배 수익 입금완료.
+            getLand().getTc().setUsable(false);
+            getLand().getBc().setUsable(false);
+//            getLand().setOwner(new Player("빈 땅", false, 0,0)); // 새 주인 설정완료.
+        }
+        return message;
     }
 
 }
